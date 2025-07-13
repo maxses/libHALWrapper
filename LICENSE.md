@@ -20,35 +20,6 @@
 <table>
   <thead>
     <tr>
-      <th markdown>
-**Header1**
-      </th>
-      <th markdown>
-**header2**
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td markdown>
-```
-some code
-```
-      </td>
-      <td markdown>
-
-      
-some `markdown` **text**
-
-
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<table>
-  <thead>
-    <tr>
       <th>Name</th>
       <th>License</th>
     </tr>
@@ -268,6 +239,8 @@ some `markdown` **text**
         <h1><a id="bsd3"></a>BSD 3-Clause License</h1>
       </td>
       <td>
+
+
 <pre>            Redistribution and use in source and binary forms, with or without
             modification, are permitted provided that the following conditions are
             met:
@@ -295,7 +268,11 @@ some `markdown` **text**
             (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
             OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 </pre>
+
+
       </td>
     </tr>
   </tbody>
 </table>
+
+
