@@ -18,10 +18,36 @@
 <br/>
 
 <table>
-      <thead>
-        <tr>
-           <th>Name</th>
-           <th>License</th>
+  <thead>
+    <tr>
+      <th markdown>
+**Header1**
+      </th>
+      <th markdown>
+**header2**
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td markdown>
+```
+some code
+```
+      </td>
+      <td markdown>
+
+some `markdown` **text**
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+   <thead>
+      <tr>
+         <th>Name</th>
+         <th>License</th>
          </tr>
       </thead>
       <tbody>
