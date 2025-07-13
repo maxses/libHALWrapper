@@ -1,0 +1,36 @@
+#------------------------------------------------------------------------------
+#
+# \brief List of symbols which can be removed without issues
+#
+#        Reason is mostly unneccessary exit-path.
+#        Can save some 100 Bytes.
+#
+#------------------------------------------------------------------------------
+
+
+raise = Error_Handler;
+abort = Error_Handler;
+_raise_r = Error_Handler;
+_signal_r = Error_Handler;
+__register_exitproc = Error_Handler;
+_init_signal = Error_Handler;
+
+_fwalk_reent = Error_Handler;
+_fwalk = Error_Handler;
+
+_init_signal_r = Error_Handler;
+_init_signal = Error_Handler;
+_signal_r = Error_Handler;
+signal = Error_Handler;
+
+_sigtramp = Error_Handler;
+__sigtramp_r = Error_Handler;
+
+__sf_fake_stderr = 0;
+__sf_fake_stdin = 0;
+__sf_fake_stdout = 0;
+
+__sfvwrite_r = Error_Handler;
+
+
+#--- Fin ----------------------------------------------------------------------
