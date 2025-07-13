@@ -20,7 +20,7 @@ different MCU models or PCB layouts.
 
 ## Building
 
-</style>
+<style>
 .language-shell {
   background-color: tomato;
   border: medium solid red;
