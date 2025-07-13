@@ -1,0 +1,33 @@
+#------------------------------------------------------------------------------
+#
+# @brief      Git ignore file for libHALWrapper
+#
+# @author     Maximilian Seesslen <mes@seesslen.net>
+#
+#------------------------------------------------------------------------------
+
+
+build
+lib
+tmp
+*.pro.user
+CMakeLists.txt.user
+install
+build-*
+docgen
+Doxyfile.bak
+
+# "patches" ignored by default?
+#!patches/f0/src
+#!patches/f0/include
+#!patches/f1/src
+#!patches/f1/include
+#!patches/f3/src
+#!patches/f3/include
+#!patches/f4/src
+#!patches/f4/include
+#!patches/l1/src
+#!patches/l1/include
+
+
+#--- Fin ----------------------------------------------------------------------
