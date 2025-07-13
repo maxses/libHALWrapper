@@ -30,7 +30,7 @@ different MCU models or PCB layouts.
 The library should be used as subdirectory in a cmake project. But it can also 
 be build standalone.
 
-** Warning: **  
+**Warning:**
 It is not recommended to compile the library as standalone and to 
 install it to the target sysroot. The startup code depends on the specific MCU
 revision.
@@ -52,7 +52,7 @@ Github repositories. Per default, the repositories will be stored in
 "$HOME/.cache/HALWrapper". To use an different directory, the environment 
 variable HAL_ARCHIVE_PATH can be set.
 
-** Example: **
+**Example:**
 <div style="border: medium solid red; background-color: #F0F0F0; border-color: #000000 1px;">
 ```shell
 mkdir -p build
@@ -64,10 +64,10 @@ make -j$(nproc)
 
 ### Install Library files
 
-** Warning: **  
+**Warning:**
 Do not install the library into the root filesystem of your host system.
 
-** Example: **
+**Example:**
 <div style="border: medium solid red; background-color: #F0F0F0; border-color: #000000 1px;">
 ```shell
 make install DESTDIR=../install
