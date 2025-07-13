@@ -20,13 +20,6 @@ different MCU models or PCB layouts.
 
 ## Building
 
-<style>
-.language-shell {
-  background-color: tomato;
-  border: medium solid red;
-}
-</style>
-
 The library should be used as subdirectory in a cmake project. But it can also 
 be build standalone.
 
@@ -53,14 +46,12 @@ Github repositories. Per default, the repositories will be stored in
 variable HAL_ARCHIVE_PATH can be set.
 
 **Example:**
-<div style="border: medium solid red; background-color: #F0F0F0; border-color: #000000 1px;">
 ```shell
 mkdir -p build
 cd build
 cmake .. -DMCU_REV_LONG=f303x8
 make -j$(nproc)
 ```
-</div>
 
 ### Install Library files
 
@@ -68,30 +59,22 @@ make -j$(nproc)
 Do not install the library into the root filesystem of your host system.
 
 **Example:**
-<div style="border: medium solid red; background-color: #F0F0F0; border-color: #000000 1px;">
 ```shell
 make install DESTDIR=../install
 ``` 
-</div>
 
 ### Build the example
 
 The example is for an "STMicroelectronics NUCLEO-F303K8" device.
-
-<div style="border: medium solid red; background-color: #F0F0F0; border-color: #000000 1px;">
 ```shell
 mkdir -p build
 cd build
 cmake .. -DMCU_REV_LONG=f303x8 -DBUILD_EXAMPLE=1
 make -j$(nproc)
 ```
-</div>
 
 ### Flash the example
 
-<div style="border: medium solid red; background-color: #F0F0F0; border-color: #000000 1px;">
 ```shell
 openocd -f ../example/scripts/stm32f303.cfg 
 ```
-</div>
-
