@@ -53,7 +53,7 @@ some `markdown` **text**
   <tbody>
     <tr>
       <td valign="top">
-        <h1><a id="apache2"></a>Apache License 2.0</h1>
+        <a id="apache2"></a>Apache License 2.0
       </td>
       <td>
 <pre>                           Apache License
