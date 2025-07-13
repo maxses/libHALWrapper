@@ -10,7 +10,7 @@
 | STM32L4 HAL                 | <a href="#bsd3">BSD-3-Clause</a>            | STMicroelectronics                                        |
 | STM32G0 HAL                 | <a href="#bsd3">BSD-3-Clause</a>            | STMicroelectronics                                        |
 | STM32G4 HAL                 | <a href="#bsd3">BSD-3-Clause</a>            | STMicroelectronics                                        |
-| libHALWrapper supplementary | <a href="#apache2">Apache License 2.0</a>   |                                                           |
+| libHALWrapper supplementary | <a href="#apache2">Apache License 2.0</a>   | Maximilian Seesslen                                       |
 
 <br/>
 <br/>
@@ -30,7 +30,7 @@
         <h1><a id="apache2"></a>Apache License 2.0</h1>
       </td>
       <td>
-<pre>                           Apache License
+        <pre>                           Apache License
                            Version 2.0, January 2004
                         http://www.apache.org/licenses/
 
@@ -231,7 +231,7 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-</pre>
+        </pre>
       </td>
     </tr>
     <tr>
@@ -239,9 +239,7 @@
         <h1><a id="bsd3"></a>BSD 3-Clause License</h1>
       </td>
       <td>
-
-
-<pre>            Redistribution and use in source and binary forms, with or without
+        <pre>            Redistribution and use in source and binary forms, with or without
             modification, are permitted provided that the following conditions are
             met:
 
@@ -267,9 +265,7 @@
             THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
             (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
             OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-</pre>
-
-
+        </pre>
       </td>
     </tr>
   </tbody>
