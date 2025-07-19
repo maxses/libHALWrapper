@@ -601,7 +601,7 @@ void SystemClock_Config( void )
    RCC_OscInitTypeDef RCC_OscInitStruct= {0};
 
   /* HSI Oscillator already ON after system reset, activate PLL with HSI as source */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_NONE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
@@ -612,7 +612,7 @@ void SystemClock_Config( void )
     /* Initialization Error */
     while(1);
   }
-
+   
   /* Select PLL as system clock source and configure the HCLK, PCLK1
      clocks dividers */
   RCC_ClkInitStruct.ClockType = (RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2);

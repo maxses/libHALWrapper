@@ -18,7 +18,7 @@ LibHALWrapper is used by the libraries "libbiwak" and "libarena". They provide
 further abstraction. This way the same application can be compiled for 
 different MCU models or PCB layouts.
 
-## Building
+## Usage
 
 The library should be used as subdirectory in a cmake project. But it can also 
 be build standalone.
@@ -30,12 +30,20 @@ revision.
 
 ### Prerequisite
 
-Its assumed an toolchain for stm32 controllers is installed and the system is 
-configured to use the toolchain e.g. by having environment variables set 
+An toolchain for stm32 controllers has to be installed on the host and the system
+must be configured to use the toolchain e.g. by having environment variables set 
 correctly.
 
-For flashing exaple binary to a nucelo device, you need "openocd" on your host
+For flashing binaries to stm32 devices, "openocd" is needed on the host
 system.
+
+On an Debian based system, following packages can be used:
+
+* arm-linux-gnueabihf
+* g++-arm-linux-gnueabihf
+* gcc-arm-linux-gnueabihf
+* openocd
+* gdb-multiarch
 
 ### CMake
 
@@ -44,6 +52,13 @@ When running the cmake command, a script to obtain the source files from ST
 Github repositories. Per default, the repositories will be stored in 
 "$HOME/.cache/HALWrapper". To use an different directory, the environment 
 variable HAL_ARCHIVE_PATH can be set.
+The correct compiler flags for the used Microcontroller have to be configured.
+This can be done for example by setting CMake variables ( CMAKE_C_FLAGS, 
+CMAKE_CXX_FLAGS, ...) or by providing a corresponding toolchain file.
+
+**Warning:**
+The repository does not set the necessarry compiler flags for the specific MCU.
+They have to be set manually or in the husk cmake file.
 
 **Example:**
 ```shell
@@ -63,18 +78,9 @@ Do not install the library into the root filesystem of your host system.
 make install DESTDIR=../install
 ``` 
 
-### Build the example
+## Building the example
 
-The example is for an "STMicroelectronics NUCLEO-F303K8" device.
-```shell
-mkdir -p build
-cd build
-cmake .. -DMCU_REV_LONG=f303x8 -DBUILD_EXAMPLE=1
-make -j$(nproc)
+[See this subpage]:doc/build_example.md
+```{include} doc/build_example.md
 ```
 
-### Flash the example
-
-```shell
-openocd -f ../example/scripts/stm32f303.cfg 
-```
