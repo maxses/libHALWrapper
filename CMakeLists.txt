@@ -18,39 +18,39 @@ project( libHALWrapper ASM C CXX )
 
 option( BUILD_EXAMPLE "Build an simple 'Hello World' example; use the script instead" 0 )
 
-string(SUBSTRING "${MCU_REV_LONG}" 0 2 MCU_REV )
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" )
+
+if( BUILD_EXAMPLE )
+
+   if( NOT PROJECT_IS_TOP_LEVEL )
+      message( FATAL_ERROR "The libHALWrapper example can only be build when it is build in top level, not in a cmake sub directory." )
+   endif( NOT PROJECT_IS_TOP_LEVEL )
+   
+   if( NOT DEFINED MCU )
+      set( MCU stm32f303x8 )
+   endif( NOT DEFINED MCU )
+   
+endif( BUILD_EXAMPLE )
+
+find_package( MCURev )
+
+# The example will automatically set compiler flags for stm32f303
+if( BUILD_EXAMPLE )
+   find_package( MCUFlags )
+endif( BUILD_EXAMPLE )
 
 set ( B "${CMAKE_CURRENT_BINARY_DIR}/HAL" )
 file( MAKE_DIRECTORY "${B}" )
 
-if ( "${MCU_REV_LONG}" STREQUAL "" )
-        message ( SEND_ERROR "CMake variable MCU_REV_LONG is not set. It should be something like 'f042x6'.\n" )
-	message ( SEND_ERROR
-		"If you are using arena:")
-	message ( SEND_ERROR
-		"Check your arena board files. The used arena board is ${ARENA_BOARD}.")
-	message ( FATAL_ERROR
-                "The used board file is '${ARENA_BOARD_FILE}'."
-		)
+if ( "${MCU}" STREQUAL "" )
+        message ( FATAL_ERROR 
+           "CMake variable MCU_REV_LONG is not set. "
+           "It should be something like 'f042x6'."
+           "If you are using arena: Check your arena board files. \n"
+           "The currently used arena board is ${ARENA_BOARD}.\n"
+           "The currently used board file is '${ARENA_BOARD_FILE}'."
+        )
 endif()
-
-string( SUBSTRING "${MCU_REV_LONG}" 0 2 MCU_REV )
-string( SUBSTRING "${MCU_REV_LONG}" 0 4 MCU_REV_MID )
-set ( MCU_REV_MASK "${MCU_REV_MID}xx" )
-
-# Uppercase variants of variables
-string( TOUPPER "${MCU_REV_LONG}" MCU_REV_LONG_UC )
-string( TOUPPER "${MCU_REV_MID}" MCU_REV_MID_UC )
-string( TOUPPER "${MCU_REV}" MCU_REV_UC )
-string( REPLACE "X" "x" MCU_REV_LONG_UC "${MCU_REV_LONG_UC}")
-set ( MCU_REV_MASK_UC "${MCU_REV_MID_UC}xx" )
-
-if ( "${MCU_REV}" STREQUAL "" )
-        message ( FATAL_ERROR
-                "Coud not extract MCU_REV from '${MCU_REV_LONG}'."
-                )
-endif()
-
 
 set( LIST_FILE ${CMAKE_CURRENT_SOURCE_DIR}/data/stm32${MCU_REV}_hal.list )
 
@@ -64,13 +64,23 @@ string( STRIP "${libHALWrapper_SOURCES}" libHALWrapper_SOURCES )
 string( REPLACE "\n" ";" libHALWrapper_SOURCES ${libHALWrapper_SOURCES} )
 list( TRANSFORM libHALWrapper_SOURCES PREPEND ${B}/src/${MCU_REV}/ )
 
+if( MCU_REV_MASK STREQUAL "f407xx" )
+   set( MCU_STARTUP "${B}/src/${MCU_REV}/startup_stm32${MCU_REV_MASK}.s" )
+else( )
+   set( MCU_STARTUP "${B}/src/${MCU_REV}/startup_stm32${MCU_REV_LONG}.s" )
+endif()
+
 set(
    libHALWrapper_SOURCES
       ${libHALWrapper_SOURCES}
-      ${B}/src/${MCU_REV}/startup_stm32${MCU_REV_LONG}.s
+      ${MCU_STARTUP}
       ${B}/src/${MCU_REV}/system_stm32${MCU_REV}xx.c
 )
 
+#message( FATAL_ERROR
+#   "X ${MCU_STARTUP} X\n"
+#   "${libHALWrapper_SOURCES}"
+#)
 
 # Get filenames for Header-Files from list-file in data directory; make it a proper list
 set( LIST_FILE ${CMAKE_CURRENT_SOURCE_DIR}/data/stm32${MCU_REV}_hal_header.list )

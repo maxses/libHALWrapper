@@ -1,0 +1,45 @@
+#------------------------------------------------------------------------------
+#
+# \brief    CMake package MCUFlags
+#
+#           This package will set compiler flags for controller defined by MCU_REV.
+#
+# \author   Maximilian Seesslen <m@seesslen.net>
+#
+#------------------------------------------------------------------------------
+
+
+cmake_minimum_required( VERSION 3.11 )
+
+if( NOT DEFINED MCU_UC )
+   find_package( MCURev )
+endif()
+
+if ( NOT DEFINED MCU_REV )
+   message( FATAL_ERROR "Variable MCU_REV is not set. This is required. "
+      "Example: -DMCU_REV=f3. CMake package 'MCURev' can be used." )
+endif ( NOT DEFINED MCU_REV )
+
+# Possible generic options, but it not to this package to decide:
+#   -fno-exceptions -ffunction-sections -fdata-sections
+
+if( MCU_REV MATCHES "f0" )
+   set( MCU_FLAGS "-march=armv6-m -mcpu=cortex-m0 -mfloat-abi=soft -mthumb" )
+elseif( MCU_REV MATCHES "f3" )
+   set( MCU_FLAGS "-march=armv7e-m -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb" )
+elseif( MCU_REV MATCHES "f4" )
+   set( MCU_FLAGS "-march=armv7e-m -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb" )
+else()
+   message( FATAL_ERROR "MCU_REV '${MCU_REV}' not known." )
+endif()
+
+set( CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${MCU_FLAGS}" )
+set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${MCU_FLAGS}" )
+set( CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,--gc-sections" )
+
+add_compile_definitions(
+   ${MCU_UC}
+)
+
+
+#------------------------------------------------------------------------------
