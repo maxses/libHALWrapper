@@ -1,3 +1,23 @@
+//-----------------------------------------------------------------------------
+///
+/// \file   main.cpp
+/// \brief  Example for libHALWrapper usage on STM32 evaluation boards
+///
+///         Trivial LED blinking. The NucleoF303k8 also prints a string via UART
+///         Verified Boards:
+///            * STM32F072B-DISCO (STM32F072RB)
+///            * NUCLEO-F303K8 (STM32F303K8T6)
+///            * STM32F4DISCOVERY (STM32F407VG)
+/// 
+/// \date   20250719
+/// \author Maximilian Seesslen <development@seesslen.net>
+///
+//-----------------------------------------------------------------------------
+
+
+//---Includes------------------------------------------------------------------
+
+
 #include <HALWrapper/stm32_dma.h>
 #include <HALWrapper/stm32_uart.h>
 #include <HALWrapper/stm32_rcc.h>
@@ -5,12 +25,31 @@
 #include <HALWrapper/stm32_cortex.h>
 
 
-#if ! defined STM32F3
+#if ! ( defined STM32F0 || defined STM32F3 || defined STM32F4 )
     #error Expected MCU defines are not set. This example will only compile via the provided build script.
 #endif
 
+#if defined STM32F303x8
+   #define GPIO_PERIPHERY  GPIOB
+   #define GPIO_PIN        GPIO_PIN_3
+   #define LED_LOOPS (10000000/16)
+#elif defined STM32F072xB
+   #define GPIO_PERIPHERY  GPIOC
+   #define GPIO_PIN        GPIO_PIN_7
+   #define LED_LOOPS (10000000/16)
+#elif defined STM32F407xG
+   #define GPIO_PERIPHERY  GPIOD
+   #define GPIO_PIN        GPIO_PIN_15
+   #define LED_LOOPS (10000000/16)
+#else
+   #error Expected MCU defines are not set. This example will only compile via the provided build script.
+#endif
 
-void exception()
+
+//---Implementation------------------------------------------------------------
+
+
+__attribute__((noreturn)) void exception()
 {
     while(1)
     {
@@ -42,18 +81,25 @@ extern "C"
        HAL_SYSTICK_IRQHandler();
        return;
     }
+    
+   // Needed for TCB
+    void _exit(int code)
+    {
+       exception();
+    }
 }
 
 
 GPIO_InitTypeDef gpioInit
 {
-   .Pin{ GPIO_PIN_3 },
+   .Pin{ GPIO_PIN },
    .Mode { GPIO_MODE_OUTPUT_PP },
    .Pull { GPIO_NOPULL },
    .Speed { GPIO_SPEED_LOW },
    .Alternate { 0 },
 };
 
+#if defined STM32F303x8
 
 GPIO_InitTypeDef gpioUartInit
 {
@@ -63,7 +109,6 @@ GPIO_InitTypeDef gpioUartInit
    .Speed { GPIO_SPEED_FREQ_HIGH },
    .Alternate { GPIO_AF7_USART2 },
 };
-
 
 UART_HandleTypeDef uartHandle
 {
@@ -85,6 +130,7 @@ UART_HandleTypeDef uartHandle
    }
 };
 
+#endif
 
 int main(int argc, const char* argv[])
 {
@@ -94,30 +140,41 @@ int main(int argc, const char* argv[])
    
    __HAL_RCC_GPIOA_CLK_ENABLE();
    __HAL_RCC_GPIOB_CLK_ENABLE();
+   __HAL_RCC_GPIOC_CLK_ENABLE();
+   __HAL_RCC_GPIOD_CLK_ENABLE();
    __HAL_RCC_USART2_CLK_ENABLE();
    
-   HAL_GPIO_Init( GPIOB, &gpioInit );
-   HAL_GPIO_Init( GPIOA, &gpioUartInit );
+   HAL_GPIO_Init( GPIO_PERIPHERY, &gpioInit );
    
-   HAL_GPIO_WritePin(  GPIOB, GPIO_PIN_3, GPIO_PIN_SET );
+   #if defined STM32F303x8
+   
+      HAL_GPIO_Init( GPIOA, &gpioUartInit );
+   
+   #endif // ? STM32F303x8
+   
+   HAL_GPIO_WritePin(  GPIO_PERIPHERY, GPIO_PIN, GPIO_PIN_SET );
+   
+   #if defined STM32F303x8
+      
+      if ( HAL_UART_Init( &uartHandle ) != HAL_OK)
+      {
+         exception();
+      }
+   
+      HAL_UART_Transmit( &uartHandle, (const uint8_t*)"Hello World!\n\r", 14, 100000 );
 
-   if ( HAL_UART_Init( &uartHandle ) != HAL_OK)
-   {
-      exception();
-   }
-
-   HAL_UART_Transmit( &uartHandle, (const uint8_t*)"Hello World!\n\r", 14, 100000 );
+   #endif // ? STM32F303x8
 
    while(1)
    {
-      HAL_GPIO_WritePin(  GPIOB, GPIO_PIN_3, GPIO_PIN_SET );
-      for(int i1=0; i1<100000; i1++)
+      HAL_GPIO_WritePin(  GPIO_PERIPHERY, GPIO_PIN, GPIO_PIN_SET );
+      for(int i1=0; i1<LED_LOOPS; i1++)
       {
          asm( "nop; \n" );
       }
       
-      HAL_GPIO_WritePin(  GPIOB, GPIO_PIN_3, GPIO_PIN_RESET );
-      for(int i1=0; i1<100000/2; i1++)
+      HAL_GPIO_WritePin(  GPIO_PERIPHERY, GPIO_PIN, GPIO_PIN_RESET );
+      for(int i1=0; i1<LED_LOOPS; i1++)
       {
          asm( "nop; \n" );
       }
@@ -125,4 +182,7 @@ int main(int argc, const char* argv[])
    
    return(0);
 };
+
+
+//---Fin-----------------------------------------------------------------------
 
