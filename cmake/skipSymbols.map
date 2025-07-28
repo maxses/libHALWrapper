@@ -32,5 +32,18 @@ __sf_fake_stdout = 0;
 
 __sfvwrite_r = Error_Handler;
 
+__tzcalc_limits = 0;
+
+# Do not remove:
+#    __srefill_r
+#    __sflush_r
+#    _printf_common
+#    __smakebuf_r
+
+_strtol_l.part.0 = 0;
+__swsetup_r = Error_Handler;
+_strtol_l = Error_Handler;
+_realloc_r = Error_Handler;
+
 
 #--- Fin ----------------------------------------------------------------------

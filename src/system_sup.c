@@ -17,6 +17,7 @@
 
 #include <HALWrapper/stm32_sup.h>
 #include <HALWrapper/stm32_cortex.h>   // HAL_SYSTICK_IRQHandler
+#include <HALWrapper/stm32_rcc.h>
 
 
 /*--- Implementation -------------------------------------------------------*/
@@ -35,6 +36,19 @@ void SysTick_Handler()
 {
    HAL_SYSTICK_IRQHandler();
    return;
+}
+
+
+void enableRtcOnLse()
+{
+   RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
+
+   PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_RTC;
+   PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSE;
+   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+   {
+      Error_Handler();
+   }
 }
 
 

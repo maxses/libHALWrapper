@@ -98,6 +98,12 @@ void SystemClock_Config_f0( void )
    {
       Error_Handler();
    }
+
+   #if defined USE_RTC_ON_LSE
+      enableRtcOnLse();
+   #endif
+      
+   return;
 }
 
 
