@@ -25,34 +25,21 @@ add_compile_options(
    
    -ffunction-sections
    -fdata-sections
-   
+
    # Does not produce usefull errors for CExti of libbiwak:
    # -Wsuggest-final-types
    # -Wsuggest-final-methods
-   -nostdlib
+   # -nostdlib
+   # -Wl,-nostdlib
+
+   -fno-asynchronous-unwind-tables
+   -fno-math-errno
 )
 
 add_definitions(
    -DNDEBUG
 )
 
-include(CheckIncludeFile)
-
-# Detect implementation of libc
-check_include_file( newlib.h HAVE_NEWLIB_H "-shared" )
-check_include_file( picolibc.h HAVE_PICOLIBC_H "-shared" )
-
-if( HAVE_NEWLIB_H )
-   message( STATUS "newlib: Yes" )
-else( HAVE_NEWLIB_H )
-   message( STATUS "newlib: No" )
-endif( HAVE_NEWLIB_H )
-
-if( HAVE_PICOLIBC_H )
-   message( STATUS "picolibc: Yes" )
-else( HAVE_PICOLIBC_H )
-   message( STATUS "picolibc: No" )
-endif( HAVE_PICOLIBC_H )
 
 add_link_options(
       -flto
@@ -60,15 +47,15 @@ add_link_options(
       -fno-exceptions
       -Wl,--sort-section=alignment
       -Wl,--gc-sections
-      -Wl,--just-symbols=${CMAKE_CURRENT_LIST_DIR}/skipSymbols.map
-      -fno-use-cxa-atexit
 )
 
-# Only 'real' nedwlib has the 'nano.specs' configuration
+# Was package 'MCUBase' already included?
+if( NOT MCUBase_FOUND )
+   include( ${CMAKE_CURRENT_LIST_DIR}/FindMCUBase.cmake )
+endif()
+
 if( HAVE_NEWLIB_H AND NOT HAVE_PICOLIBC_H )
-   add_link_options(
-      --specs=nano.specs
-   )
+   include( ${CMAKE_CURRENT_LIST_DIR}/FindMCUNewlib.cmake )
 endif( )
 
 # Absolutely no optimization is way too big

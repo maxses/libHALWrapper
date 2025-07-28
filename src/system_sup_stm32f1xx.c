@@ -42,7 +42,7 @@ void SystemClock_Config_f1( void )
    HAL_StatusTypeDef  halStatus;
 
    /* After reset the device runs on HSI */
-   oscinitstruct.OscillatorType  = RCC_OSCILLATORTYPE_HSI
+   oscinitstruct.OscillatorType  = ( RCC_OSCILLATORTYPE_HSI
    #if defined USE_LSE
                | RCC_OSCILLATORTYPE_LSE );
    oscinitstruct.LSEState        = RCC_LSE_ON;

@@ -252,10 +252,10 @@ generateList()
       >>  ${SCRIPTDIR}/../data/stm32${MCU_REV}_hal_header.list
 
    DATA="${SCRIPTDIR}/../data"
-   sort -n ${DATA}/stm32${MCU_REV}_hal.list > ${DATA}/stm32${MCU_REV}_hal.list.sort
+   env LC_ALL=C sort -n ${DATA}/stm32${MCU_REV}_hal.list > ${DATA}/stm32${MCU_REV}_hal.list.sort
    mv ${DATA}/stm32${MCU_REV}_hal.list.sort ${DATA}/stm32${MCU_REV}_hal.list
    
-   sort -n ${DATA}/stm32${MCU_REV}_hal_header.list > ${DATA}/stm32${MCU_REV}_hal_header.list.sort
+   env LC_ALL=C sort -n ${DATA}/stm32${MCU_REV}_hal_header.list > ${DATA}/stm32${MCU_REV}_hal_header.list.sort
    mv ${DATA}/stm32${MCU_REV}_hal_header.list.sort ${DATA}/stm32${MCU_REV}_hal_header.list
 
    #find ${sourcePath}/Drivers/CMSIS/Include \

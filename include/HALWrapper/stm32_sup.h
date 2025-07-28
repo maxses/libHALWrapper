@@ -20,7 +20,9 @@ extern "C" {
 
 // Just freeze
 __attribute__(( noreturn )) void Error_Handler(void);
+__attribute__(( noreturn )) void HardFault_Handler(void);
 void SysTick_Handler();
+void enableRtcOnLse();
 
 
 #ifdef __cplusplus

@@ -9,7 +9,7 @@
 
 __flash_page_size = 0x800;
 __flash_size = 32K;
-__heap_size = ( LENGTH(RAM) / 32 ) * 20;
+__heap_size = 0x200;
 __ram_size = 6K;
 __stack_size = MIN ( ( LENGTH(RAM) / 32 ) * 8, 1536 );
 

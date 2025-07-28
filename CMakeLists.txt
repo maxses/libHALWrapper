@@ -33,13 +33,28 @@ if( BUILD_EXAMPLE )
       set( MCU stm32f303x8 )
    endif( NOT DEFINED MCU )
    
+   find_package( MCUBase )
    find_package( MCUShrink )
+   if( HAVE_NEWLIB_H AND NOT HAVE_PICOLIBC_H )
+      find_package( MCUNewlib )
+   endif( )
+
    
 endif( BUILD_EXAMPLE )
 
+if( NOT DEFINED MCU )
+   message( FATAL_ERROR
+      "Variable MCU is not set. This is required."
+      " Example: -DMCU=stm32f303x8"
+   )
+endif( NOT DEFINED MCU )
+
+# The example will automatically set cmake variables. As long as libHALWrapper
+# should be able to work standalone without 'arena', the variables have to be
+# set here to compile.
 find_package( MCURev )
 
-# The example will automatically set compiler flags for stm32f303
+# The example will automatically set compiler flags for e.g. stm32f303
 if( MCU_AUTO_FLAGS )
    find_package( MCUFlags )
 endif( MCU_AUTO_FLAGS )
@@ -60,7 +75,7 @@ endif( )
 set( LIST_FILE ${CMAKE_CURRENT_SOURCE_DIR}/data/stm32${MCU_REV}_hal.list )
 
 if ( NOT EXISTS "${LIST_FILE}" )
-   message( FATAL_ERROR "List file does not exist for MCU '${MCU_REV}': ${LIST_FILE}" )
+   message( FATAL_ERROR "List file does not exist for MCU '${MCU}': ${LIST_FILE}" )
 endif( )
 
 # Get filenames for C-Files from list-file in data directory; make it a proper list
@@ -73,9 +88,14 @@ list( TRANSFORM libHALWrapper_SOURCES PREPEND ${B}/src/${MCU_REV}/ )
 # reflected in the filename.
 if(      ( MCU_REV_MASK STREQUAL "f407xx" )
       OR ( MCU_REV_MASK STREQUAL "g031xx" )
-      OR ( MCU_REV_MASK STREQUAL "l031xx" )
+      OR ( MCU_REV_MASK STREQUAL "g030xx" )
+      OR ( MCU_REV_MASK STREQUAL "g431xx" )
       OR ( MCU_REV_MASK STREQUAL "g441xx" )
-      OR ( MCU_REV_MASK STREQUAL "l152xx" )
+      OR ( MCU_REV_MASK STREQUAL "l011xx" )
+      OR ( MCU_REV_MASK STREQUAL "l031xx" )
+      # OR ( MCU_REV_MASK STREQUAL "l152xx" )   # Nope!
+      OR ( MCU_REV_MASK STREQUAL "l431xx" )
+      OR ( MCU_REV_MASK STREQUAL "l443xx" )
 )
    set( MCU_STARTUP_CODE "stm32${MCU_REV_MASK}" )
 else( )
@@ -238,9 +258,11 @@ endif( BUILD_EXAMPLE )
 
 
 if( NOT PROJECT_IS_TOP_LEVEL )
-   # Set some variables for the parent scope to make things easier
+   # Set some variables for the parent scope to make things easier.
+   # Otherwise they would need to also include package "MCURev"
    set( MCU_REV "${MCU_REV}" PARENT_SCOPE )
-   
+   set( MCU_REV_LONG "${MCU_REV_LONG}" PARENT_SCOPE )
+
    # Change parents CMAKE_MODULE_PATH?
    # set( CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" PARENT_SCOPE )
 endif( NOT PROJECT_IS_TOP_LEVEL )

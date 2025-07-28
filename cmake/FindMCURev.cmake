@@ -27,6 +27,11 @@ if( NOT DEFINED MCU )
    )
 endif( NOT DEFINED MCU )
 
+# Filter out the MCU package. E.g. convert stm32f303k8 to stm32f303x8
+string( SUBSTRING "${MCU}" 0 9 MCU1 )
+string( SUBSTRING "${MCU}" 10 1 MCU2 )
+set ( MCU "${MCU1}x${MCU2}" )
+
 string( SUBSTRING "${MCU}" 5 -1 MCU_REV_LONG )
 string( SUBSTRING "${MCU}" 5 2 MCU_REV )
 string( SUBSTRING "${MCU}" 5 4 MCU_REV_MID )
@@ -44,8 +49,15 @@ set ( MCU_REV_MASK_UC "${MCU_REV_MID_UC}xx" )
 # as to be set
 if ( MCU_UC STREQUAL "STM32L152x8" )
    set( MCU_ALIAS_UC "STM32L152xB" )
-   string( TOLOWER "${MCU_ALIAS_UC}" MCU_ALIAS )
 endif()
+
+if ( MCU_UC STREQUAL "STM32F042x4" )
+   set( MCU_ALIAS_UC "STM32F042x6" )
+endif()
+
+if( MCU_ALIAS_UC )
+   string( TOLOWER "${MCU_ALIAS_UC}" MCU_ALIAS )
+endif( MCU_ALIAS_UC )
 
 if ( "${MCU_REV}" STREQUAL "" )
         message ( FATAL_ERROR

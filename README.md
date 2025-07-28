@@ -67,7 +67,7 @@ Otherwise they have to be set manually or in the husk cmake file.
 ```shell
 mkdir -p build
 cd build
-cmake .. -DMCU=f303x8 \
+cmake .. -DMCU=stm32f303x8 \
            -DCMAKE_C_COMPILER=arm-none-eabi-gcc \
            -DCMAKE_CXX_COMPILER=arm-none-eabi-g++ \
            -DCMAKE_C_COMPILER_WORKS=1 \
@@ -109,7 +109,7 @@ flags for the MCU are set automatically for the example.
 mkdir -p build
 cd build
 cmake .. \
-    -DMCU_REV_LONG=f303x8 \
+    -DMCU=stm32f303x8 \
     -DCMAKE_C_COMPILER=arm-none-eabi-gcc \
     -DCMAKE_CXX_COMPILER=arm-none-eabi-g++ \
     -DCMAKE_C_COMPILER_WORKS=1 \
@@ -195,15 +195,15 @@ LibHALWrapper will automatically set some prefines describing the target MCU.
 These are needed by the HAL source code.
 For example when building for an "stm32f303x8", following defines would be set:
 
-| Define        | Value      |
-|---------------|------------|
-| STM32F3       |            |
-| STM32F303     |            |
-| STM32F303xx   |            |
-| STM32F303x8   |            |
-| STM32F303     |            |
-| MCU_REV       | f3         |
-| MCU           | stmf303x8  |
+| Define        | Value        |
+| ------------- | ------------ |
+| STM32F3       |              |
+| STM32F303     |              |
+| STM32F303xx   |              |
+| STM32F303x8   |              |
+| STM32F303     |              |
+| MCU_REV       | f3           |
+| MCU           | stm32f303x8  |
 
 ## Configuration
 
@@ -214,21 +214,21 @@ The configuration header file used in HAL is the default template header.
 Some configuration can be set via preprocessor predefines:
 
 | Define                    | Component | Description                                                                                                                                                 |
-|---------------------------|-----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ------------------------- | --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | USE_LSE                   | SUP       | Configure the external low speed oszilator. Needed for RTC running on Standby with battery. Not implemented for all MCUs clock configuration functions yet. |
 | USE_FULL_ASSERT           | HAL       | Perform sanity check on many function calls. Only usefull for development.                                                                                  |
 
 ## CMake Variables
 
 | Define                    | Component | Description                                                                                         |
-|---------------------------|-----------|-----------------------------------------------------------------------------------------------------|
+| ------------------------- | --------- | --------------------------------------------------------------------------------------------------- |
 | MCU_AUTO_FLAGS            | CMake     | When this option is set, adding libHALWrapper as subdirectory will set compiler flags for given MCU |
 | BUILD_EXAMPLE             | CMake     | Build the example. This can only be done when libHALWrapper is the top level CMake project.         |
 
 ## CMake Modules
 
 | Define    | Description                                                                                         |
-|-----------|-----------------------------------------------------------------------------------------------------|
+| --------- | --------------------------------------------------------------------------------------------------- |
 | MCURev    | Parses the variable 'MCU' and sets others like MCU_REV. Internally used by CMakeLists.txt.          |
 | MCUFlags  | Set compiler flags for given mcu family. Automatically used when building example.                  |
 | MCUShrink | Set compiler/linker flags for very small binary size. Automatically used when building example.     |
@@ -242,3 +242,11 @@ with (pseudo-) function "SystemClock_Config()" called in main. Afer this the HAL
 If a special clock configuration is needed, the default weak function can be 
 overloaded with an custom  strong function. E.g. for an stm32f303x8 the function
 "void SystemClock_Config_f3( void )" has to be implemented as strong function.
+
+# FAQ
+
+* Compiler throws errors like "Error: selected processor does not support `sev' in ARM mode"
+  Compiler flags are not set correctly. You can set the cmake variable "MCU_AUTO_FLAGS" or include the cmake package 'MCUFlags' in your CMakeLists.txt file.
+
+* Linker message "undefined reference to `__exidx_start'"
+  You are probably using a toolchain wich is using newlib. You have to specify "--specs=nano".

@@ -14,6 +14,7 @@
 
 #if defined STM32F0
 
+   #include <stdint.h>
    #include <stm/stm32f0xx_hal_i2c.h>
 
 #elif defined STM32F1
