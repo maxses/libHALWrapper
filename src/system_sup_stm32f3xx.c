@@ -20,6 +20,11 @@
 #include <HALWrapper/stm32_sup.h>
 
 
+#if defined USE_HSE
+   #error USE_HSE not implemented for this MCU
+#endif
+
+
 /*--- Implementation -------------------------------------------------------*/
 
 
@@ -40,7 +45,13 @@ void SystemClock_Config_f3( void )
    RCC_OscInitTypeDef RCC_OscInitStruct = { 0 };
 
    /* The HSI Oscillator already ON after system reset.*/
+   #if ! defined USE_LSE
    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+   #else
+   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI | RCC_OSCILLATORTYPE_LSE;
+   RCC_OscInitStruct.LSEState = RCC_LSE_ON;
+   // No calibration for LSE
+   #endif
    RCC_OscInitStruct.HSIState = RCC_HSI_ON;
    RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
    RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
@@ -62,6 +73,10 @@ void SystemClock_Config_f3( void )
    {
       Error_Handler();
    }
+
+   #if defined USE_RTC_ON_LSE
+      enableRtcOnLse();
+   #endif
 }
 
 

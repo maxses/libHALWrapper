@@ -1,5 +1,11 @@
 # LibHALWrapper
 
+<div align="center" width="100%" style="vertical-align: middle;" valign="middle">
+    <img src="doc/canio_2.jpg" height="150" style="vertical-align: middle;">
+</div>
+
+## Overview
+
 LibHALWrapper provides the HAL libraries from ST for STM32 along with CMSIS 
 code and supplementary code. It is the first step to detach application 
 source code from actual used MCU model.

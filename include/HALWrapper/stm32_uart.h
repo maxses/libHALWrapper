@@ -12,8 +12,9 @@
  *---------------------------------------------------------------------------*/
 
 
-#if ! ( defined STM32F1 || defined STM32L4 )
-   // UART references to some DMA structures on most devices
+#if ! ( defined __STM32F1 || defined __STM32L4 )
+   // UART references to some DMA structures on most devices.
+   // Verified for: stm32f1
    #include <HALWrapper/stm32_dma.h>
 #endif
 

@@ -44,8 +44,15 @@ set ( MCU_REV_MASK_UC "${MCU_REV_MID_UC}xx" )
 # as to be set
 if ( MCU_UC STREQUAL "STM32L152x8" )
    set( MCU_ALIAS_UC "STM32L152xB" )
-   string( TOLOWER "${MCU_ALIAS_UC}" MCU_ALIAS )
 endif()
+
+if ( MCU_UC STREQUAL "STM32F042x4" )
+   set( MCU_ALIAS_UC "STM32F042x6" )
+endif()
+
+if( MCU_ALIAS_UC )
+   string( TOLOWER "${MCU_ALIAS_UC}" MCU_ALIAS )
+endif( MCU_ALIAS_UC )
 
 if ( "${MCU_REV}" STREQUAL "" )
         message ( FATAL_ERROR

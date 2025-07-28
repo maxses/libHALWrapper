@@ -30,6 +30,10 @@ add_compile_options(
    # -Wsuggest-final-types
    # -Wsuggest-final-methods
    -nostdlib
+   -Wl,-nostdlib
+
+   -fno-asynchronous-unwind-tables
+   $<$<COMPILE_LANGUAGE:CXX>:-fno-use-cxa-atexit>
 )
 
 add_definitions(
@@ -60,8 +64,9 @@ add_link_options(
       -fno-exceptions
       -Wl,--sort-section=alignment
       -Wl,--gc-sections
-      -Wl,--just-symbols=${CMAKE_CURRENT_LIST_DIR}/skipSymbols.map
       -fno-use-cxa-atexit
+      -Wl,-nostdlib
+
 )
 
 # Only 'real' nedwlib has the 'nano.specs' configuration
