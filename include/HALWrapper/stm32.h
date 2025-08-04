@@ -31,6 +31,10 @@
 
    #include <stm/stm32f303x8.h>
 
+#elif defined STM32F303xC
+
+   #include <stm/stm32f303xc.h>
+
 #elif defined STM32F334x8
 
    #include <stm/stm32f334x8.h>
