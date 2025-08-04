@@ -39,7 +39,7 @@ endif( BUILD_EXAMPLE )
 
 find_package( MCURev )
 
-# The example will automatically set compiler flags for stm32f303
+# The example will automatically set compiler flags for e.g. stm32f303
 if( MCU_AUTO_FLAGS )
    find_package( MCUFlags )
 endif( MCU_AUTO_FLAGS )
