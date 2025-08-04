@@ -33,7 +33,7 @@ add_compile_options(
    -Wl,-nostdlib
 
    -fno-asynchronous-unwind-tables
-   -fno-use-cxa-atexit
+   $<$<COMPILE_LANGUAGE:CXX>:-fno-use-cxa-atexit>
 )
 
 add_definitions(
