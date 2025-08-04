@@ -45,7 +45,7 @@ void SystemClock_Config_f3( void )
    RCC_OscInitTypeDef RCC_OscInitStruct = { 0 };
 
    /* The HSI Oscillator already ON after system reset.*/
-   #if not defined USE_LSE
+   #if ! defined USE_LSE
    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
    #else
    RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI | RCC_OSCILLATORTYPE_LSE;
