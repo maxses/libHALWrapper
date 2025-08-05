@@ -47,8 +47,11 @@ __swsetup_r = Error_Handler;
 _strtol_l = Error_Handler;
 _realloc_r = Error_Handler;
 
-/* No ide whats going on */
-_sbrk = _sbrk;
+/* 
+    No idea whats going wrong with the _sbrk symbol. But libHALWrapper should 
+    not care about special toolchains behaviours.
+*/
+/* _sbrk = _sbrk; */
 
 
 /*--- Fin ------------------------------------------------------------------*/
