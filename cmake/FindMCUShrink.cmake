@@ -74,7 +74,6 @@ add_link_options(
 if( HAVE_NEWLIB_H AND NOT HAVE_PICOLIBC_H )
    add_link_options(
       --specs=nano.specs
-      -Wl,--specs=nano.specs
    )
 endif( )
 
