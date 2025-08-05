@@ -47,5 +47,8 @@ __swsetup_r = Error_Handler;
 _strtol_l = Error_Handler;
 _realloc_r = Error_Handler;
 
+/* No ide whats going on */
+_sbrk = _sbrk;
+
 
 /*--- Fin ------------------------------------------------------------------*/
