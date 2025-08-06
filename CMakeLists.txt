@@ -253,9 +253,11 @@ endif( BUILD_EXAMPLE )
 
 
 if( NOT PROJECT_IS_TOP_LEVEL )
-   # Set some variables for the parent scope to make things easier
+   # Set some variables for the parent scope to make things easier.
+   # Otherwise they would need to also include package "MCURev"
    set( MCU_REV "${MCU_REV}" PARENT_SCOPE )
-   
+   set( MCU_REV_LONG "${MCU_REV_LONG}" PARENT_SCOPE )
+
    # Change parents CMAKE_MODULE_PATH?
    # set( CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" PARENT_SCOPE )
 endif( NOT PROJECT_IS_TOP_LEVEL )
