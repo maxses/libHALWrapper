@@ -29,11 +29,10 @@ add_compile_options(
    # Does not produce usefull errors for CExti of libbiwak:
    # -Wsuggest-final-types
    # -Wsuggest-final-methods
-   # -nostdlib
-   # -Wl,-nostdlib
 
    -fno-asynchronous-unwind-tables
    -fno-math-errno
+   $<$<COMPILE_LANGUAGE:CXX>:-fno-use-cxa-atexit>
 )
 
 add_definitions(
@@ -42,11 +41,12 @@ add_definitions(
 
 
 add_link_options(
-      -flto
-      -fdevirtualize-at-ltrans
-      -fno-exceptions
-      -Wl,--sort-section=alignment
-      -Wl,--gc-sections
+   -flto
+   -fdevirtualize-at-ltrans
+   -fno-exceptions
+   -Wl,--sort-section=alignment
+   -Wl,--gc-sections
+   -fno-use-cxa-atexit
 )
 
 # Was package 'MCUBase' already included?

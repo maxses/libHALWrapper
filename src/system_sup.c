@@ -33,12 +33,14 @@ void Error_Handler()
    }
 }
 
+
 // Have a plausible backtrace instead of default handler qhich could be any
 // reason.
 void HardFault_Handler()
 {
    Error_Handler();
 }
+
 
 void SysTick_Handler()
 {
