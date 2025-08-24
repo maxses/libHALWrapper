@@ -47,6 +47,12 @@ void SysTick_Handler()
 }
 
 
+uint32_t HAL_RCC_GetSysClockFreq_48Mhz()
+{
+   return( 48000000 );
+}
+
+
 void enableRtcOnLse()
 {
    RCC_PeriphCLKInitTypeDef PeriphClkInit = {0};
@@ -79,6 +85,46 @@ bool __atomic_compare_exchange_4 (volatile void *ptr, void *expected, unsigned i
       return false;
    }
    *(volatile int *)ptr = desired;
+   __enable_irq();
+   return true;
+}
+
+
+bool __atomic_compare_exchange_1 (volatile void *ptr, void *expected, uint8_t desired, \
+                                 bool weak, int success_memorder, int failure_memorder) \
+{
+   (void) weak;
+   (void) success_memorder;
+   (void) failure_memorder;
+   __disable_irq();
+   uint8_t cur = *(volatile uint8_t *)ptr;
+   if (cur != *(int *)expected)
+   {
+      *(uint8_t *)expected = cur;
+      __enable_irq();
+      return false;
+   }
+   *(volatile uint8_t *)ptr = desired;
+   __enable_irq();
+   return true;
+}
+
+
+bool __atomic_compare_exchange_2 (volatile void *ptr, void *expected, uint16_t desired, \
+                                 bool weak, int success_memorder, int failure_memorder) \
+{
+   (void) weak;
+   (void) success_memorder;
+   (void) failure_memorder;
+   __disable_irq();
+   uint16_t cur = *(volatile uint16_t *)ptr;
+   if (cur != *(int *)expected)
+   {
+      *(uint16_t *)expected = cur;
+      __enable_irq();
+      return false;
+   }
+   *(volatile uint16_t *)ptr = desired;
    __enable_irq();
    return true;
 }

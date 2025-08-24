@@ -14,7 +14,7 @@ tmp
 CMakeLists.txt.user
 install
 build-*
-docgen
+doxgen
 Doxyfile.bak
 
 # "patches" ignored by default?

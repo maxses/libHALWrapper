@@ -14,6 +14,8 @@
  *---------------------------------------------------------------------------*/
 
 
+#include <stdint.h>                    // uint32_t
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -89,6 +91,8 @@ void SystemClock_Config_l1();
 void SystemClock_Config_l4();
 void SystemClock_Config_g0();
 void SystemClock_Config_g4();
+
+uint32_t HAL_RCC_GetSysClockFreq_48Mhz();
 
 #ifdef __cplusplus
 }

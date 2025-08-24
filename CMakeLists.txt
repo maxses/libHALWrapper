@@ -268,4 +268,13 @@ if( NOT PROJECT_IS_TOP_LEVEL )
 endif( NOT PROJECT_IS_TOP_LEVEL )
 
 
+# Have an defined end
+target_link_options(
+   HALWrapper-${MCU_REV}
+   PUBLIC
+      -Wl,--defsym,_abort=Error_Handler
+      -Wl,--defsym,abort=Error_Handler
+)
+
+
 #------------------------------------------------------------------------------
